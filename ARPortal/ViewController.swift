@@ -27,8 +27,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap))
         self.sceneView.addGestureRecognizer(tapGestureRecognizer)
         
-        
-        
     }
     
     @objc func handleTap(sender: UITapGestureRecognizer) {
