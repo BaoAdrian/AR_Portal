@@ -25,7 +25,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         self.sceneView.delegate = self
         
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap))
-    
         self.sceneView.addGestureRecognizer(tapGestureRecognizer)
         
         
@@ -51,16 +50,17 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         // Load node inside the scene
         let portalNode = portalScene!.rootNode.childNode(withName: "Portal", recursively: false)
         
-        let transform = hitTestResult.worldTransform
         
+        // Pull positions
+        let transform = hitTestResult.worldTransform
         let planeXPosition = transform.columns.3.x
         let planeYPosition = transform.columns.3.y
         let planeZPosition = transform.columns.3.y
         
         portalNode!.position = SCNVector3(planeXPosition, planeYPosition, planeZPosition)
-        
         self.sceneView.scene.rootNode.addChildNode(portalNode!)
         
+        // Add images to the inside of the virtual environment
         self.addPlane(nodeName: "roof", portalNode: portalNode!, imageName: "top")
         self.addPlane(nodeName: "floor", portalNode: portalNode!, imageName: "bottom")
         self.addWalls(nodeName: "backWall", portalNode: portalNode!, imageName: "back")
@@ -106,6 +106,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         child?.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "Portal.scnassets/\(imageName).png")
         
+        // Give renderingOrder change for planes so the mask can provide the invisible illusion
         child?.renderingOrder = 200
     }
     
